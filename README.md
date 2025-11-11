@@ -2,6 +2,10 @@
 
 This project implements a machine learning system to predict loan approval chances based on applicant data. The model achieves over 98% accuracy, precision, recall, and F1-score.
 
+## Architecture
+
+See [ARCHITECTURE.md](ARCHITECTURE.md) for detailed information about the system design and components.
+
 ## Features
 
 - Predicts loan approval (Approved/Denied) based on applicant information
