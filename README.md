@@ -1,4 +1,6 @@
-# CreditScore AI - Loan Approval Prediction System
+# CreditScore AI - Loan Approval Prediction System (Optimized Version)
+
+> **Note**: This repository now contains the enhanced, optimized version of the loan approval prediction system. See `OPTIMIZED_README.md` for detailed documentation of improvements.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.7%2B-blue" alt="Python Version">
