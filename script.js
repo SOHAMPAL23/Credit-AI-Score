@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Range Slider Elements
+    // Elegant number formatter
+    const formatCurrency = (num) => new Intl.NumberFormat('en-US').format(num);
+    const formatPercent = (num) => Math.round(num * 100);
+
+    // Inputs & Badges
     const ageInput = document.getElementById('age');
     const ageVal = document.getElementById('age-val');
     
@@ -12,15 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const dtiInput = document.getElementById('dti');
     const dtiVal = document.getElementById('dti-val');
 
-    // Update values on slide
-    ageInput.addEventListener('input', (e) => ageVal.textContent = e.target.value);
-    yearsInput.addEventListener('input', (e) => yearsVal.textContent = e.target.value);
-    creditInput.addEventListener('input', (e) => creditVal.textContent = e.target.value);
-    dtiInput.addEventListener('input', (e) => {
-        dtiVal.textContent = Number(e.target.value).toFixed(2);
+    // Real-time UI updates for sliders
+    ageInput.addEventListener('input', (e) => ageVal.textContent = `${e.target.value} yrs`);
+    yearsInput.addEventListener('input', (e) => yearsVal.textContent = `${e.target.value} yrs`);
+    
+    creditInput.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        creditVal.textContent = val;
+        // Dynamically style credit badge
+        if(val >= 750) creditVal.className = 'val-display badge badge-gold';
+        else if (val >= 650) creditVal.className = 'val-display badge';
+        else {
+            creditVal.className = 'val-display badge';
+            creditVal.style.color = 'var(--danger)';
+            creditVal.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            creditVal.style.background = 'rgba(239, 68, 68, 0.1)';
+        }
     });
 
-    // Form submission
+    dtiInput.addEventListener('input', (e) => dtiVal.textContent = `${formatPercent(e.target.value)}%`);
+
+    // Form logic
     const form = document.getElementById('prediction-form');
     const predictBtn = document.getElementById('predict-btn');
     const btnText = predictBtn.querySelector('.btn-text');
@@ -32,12 +48,11 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Show loader
+        // Button loading state
         btnText.classList.add('hidden');
         btnLoader.classList.remove('hidden');
         predictBtn.disabled = true;
 
-        // Gather data
         const requestData = {
             age: parseInt(ageInput.value),
             income: parseFloat(document.getElementById('income').value),
@@ -51,104 +66,107 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('/api/predict', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(requestData)
             });
 
             if (!response.ok) {
                 const errData = await response.json();
-                throw new Error(errData.detail || 'Failed to get prediction');
+                throw new Error(errData.detail || 'Prediction request failed');
             }
 
             const data = await response.json();
-            updateDashboard(data, requestData);
             
-            // Switch views
-            initialState.classList.add('hidden');
+            // Switch views gracefully
+            initialState.style.display = 'none';
             dashboard.classList.remove('hidden');
+            
+            // Execute animation render
+            renderDashboard(data, requestData);
 
         } catch (error) {
-            alert('Error: ' + error.message);
+            console.error('Error fetching prediction:', error);
+            alert('Simulation Error: ' + error.message);
         } finally {
-            // Hide loader
+            // Restore button
             btnText.classList.remove('hidden');
             btnLoader.classList.add('hidden');
             predictBtn.disabled = false;
         }
     });
 
-    function updateDashboard(data, requestData) {
+    function renderDashboard(data, requestData) {
         const { prediction, probability } = data;
-        const den_prob = probability[0];
-        const app_prob = probability[1];
+        const denRisk = probability[0] * 100;
+        const appConf = probability[1] * 100;
 
-        // Decision Card
+        // Animate Decision Text
         const decisionCard = document.getElementById('decision-card');
         const decisionText = document.getElementById('decision-text');
         
         if (prediction === 1) {
-            decisionText.textContent = "✅ APPROVED";
-            decisionCard.classList.remove('decision-denied');
-            decisionCard.classList.add('decision-approved');
+            decisionText.textContent = "APPROVED";
+            decisionCard.className = 'glass-panel major-decision decision-approved';
         } else {
-            decisionText.textContent = "❌ DENIED";
-            decisionCard.classList.remove('decision-approved');
-            decisionCard.classList.add('decision-denied');
+            decisionText.textContent = "DENIED";
+            decisionCard.className = 'glass-panel major-decision decision-denied';
         }
 
-        // Progress Rings
-        updateRing('approval', app_prob);
-        updateRing('denial', den_prob);
+        // Animate SVG Gauges and Numbers
+        animateGauge('approval', appConf);
+        animateGauge('denial', denRisk);
 
-        // Recommendations
-        updateRecommendations(prediction, requestData);
+        // Render AI Insights
+        renderInsights(prediction, requestData);
     }
 
-    function updateRing(type, value) {
-        const circle = document.getElementById(`${type}-circle`);
-        const text = document.getElementById(`${type}-percentage`);
+    function animateGauge(prefix, targetValue) {
+        const circle = document.getElementById(`${prefix}-gauge`);
+        const valueBox = document.getElementById(`${prefix}-value`);
         
-        const circumference = 2 * Math.PI * 45;
-        const offset = circumference - (value * circumference);
+        // Math for SVG stroke offset (r=50 -> circum=314)
+        const circumference = 314;
+        const offset = circumference - ((targetValue / 100) * circumference);
         
-        // Slight delay for animation effect
+        // Animate SVG
         setTimeout(() => {
             circle.style.strokeDashoffset = offset;
-            text.textContent = `${(value * 100).toFixed(1)}%`;
         }, 100);
+
+        // Animate Number Counting
+        let current = 0;
+        const increment = targetValue / 40; // 40 frames
+        const timer = setInterval(() => {
+            current += increment;
+            if (current >= targetValue) {
+                current = targetValue;
+                clearInterval(timer);
+            }
+            valueBox.innerHTML = `${Math.round(current)}<span class="percent">%</span>`;
+        }, 20);
     }
 
-    function updateRecommendations(prediction, requestData) {
-        const recIcon = document.getElementById('rec-icon');
-        const recTitle = document.getElementById('rec-title');
-        const recContent = document.getElementById('rec-content');
-
+    function renderInsights(prediction, requestData) {
+        const content = document.getElementById('rec-content');
+        const dtiPercent = formatPercent(requestData.debt_to_income);
+        
         if (prediction === 1) {
-            recIcon.textContent = "✅";
-            recTitle.textContent = "Excellent News!";
-            recTitle.style.color = "var(--success)";
-            recContent.innerHTML = `
-                <p>This application is highly likely to be approved based on the provided information.</p>
+            content.innerHTML = `
+                <p>The neural network has evaluated the financial parameters and determined high viability for funding.</p>
                 <ul>
-                    <li>Proceed with standard verification procedures</li>
-                    <li>Collect all required documentation</li>
-                    <li>Process loan terms and conditions</li>
+                    <li><strong>Credit Factor:</strong> Your score of ${requestData.credit_score} strongly supports probability.</li>
+                    <li><strong>DTI Ratio:</strong> At ${dtiPercent}%, your debt-to-income is well within safe thresholds.</li>
+                    <li><strong>Next Phase:</strong> Advance to identity verification and document collection.</li>
                 </ul>
             `;
         } else {
-            recIcon.textContent = "⚠️";
-            recTitle.textContent = "Application Concerns";
-            recTitle.style.color = "var(--danger)";
-            
-            recContent.innerHTML = `
-                <p>Based on the applicant's profile, the loan does not currently meet the criteria for approval.</p>
-                <p><strong>Areas for improvement:</strong></p>
+            content.innerHTML = `
+                <p>The neural model detected risk factors that exceed our current approval thresholds. Review the following adjustments:</p>
                 <ul>
-                    <li>Higher credit scores are favorably weighted.</li>
-                    <li>Reducing the debt-to-income ratio increases approval chances.</li>
-                    <li>Consider requesting a lower loan amount relative to income.</li>
+                    ${requestData.credit_score < 700 ? `<li><strong>Credit Profile:</strong> Increasing score above 700 yields a +25% confidence boost.</li>` : ''}
+                    ${requestData.debt_to_income > 0.35 ? `<li><strong>DTI Limitation:</strong> A ${dtiPercent}% ratio triggers high-risk alerts. Target < 30%.</li>` : ''}
+                    ${requestData.loan_amount / requestData.income > 3 ? `<li><strong>Leverage:</strong> Loan amount is over 3x annual income, which severely restricts approval.</li>` : ''}
+                    <li><strong>Manual Review:</strong> Consider submitting mitigating documents to an underwriter.</li>
                 </ul>
             `;
         }

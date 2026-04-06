@@ -139,3 +139,5 @@ Thumbs.db
 # Project specific
 *.pkl
 model_evaluation.png
+.vercel
+.env*.local

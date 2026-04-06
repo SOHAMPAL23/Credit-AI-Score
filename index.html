@@ -3,151 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreditScore AI - Loan Approval Simulator</title>
-    <meta name="description" content="CreditScore AI uses advanced machine learning to simulate loan approval probabilities based on your financial information.">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Custom CSS -->
+    <title>CreditScore AI | Smart Pre-Approval</title>
+    <!-- Premium Google Fonts: Plus Jakarta Sans for modern minimal feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-        <div class="orb orb-3"></div>
-    </div>
+    <!-- Advanced Premium Background Mesh & Texture -->
+    <div class="bg-texture"></div>
+    <div class="ambient-glow glow-primary"></div>
+    <div class="ambient-glow glow-secondary"></div>
+    <div class="ambient-glow glow-accent"></div>
 
     <div class="container">
-        <header class="header glass-panel">
-            <div class="icon-container">
-                <span class="icon">💎</span>
+        <!-- Minimalist Header -->
+        <header class="header slide-in-top">
+            <div class="logo-group">
+                <div class="logo-mark">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="url(#paint0_linear)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="rgba(255,255,255,0.4)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="paint0_linear" x1="2" y1="17" x2="22" y2="17" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#38BDF8" />
+                                <stop offset="1" stop-color="#818CF8" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h2>CreditScore AI</h2>
             </div>
-            <div class="header-text">
-                <h1 id="main-title">CreditScore AI</h1>
-                <p>Smart Loan Approval Predictions Powered by Machine Learning</p>
-            </div>
+            <p class="tagline">Neural Network Loan Approval Engine</p>
         </header>
 
-        <main class="main-content">
-            <div class="layout-grid">
-                <!-- Data Entry Form -->
-                <section class="form-section glass-panel">
-                    <h2>Applicant Information</h2>
-                    <p class="subtitle">Adjust the parameters to see how they impact approval.</p>
-                    
-                    <form id="prediction-form" class="custom-form">
+        <main class="dashboard-grid fade-in-up">
+            <!-- Left Side: Interactive Input Panel -->
+            <section class="glass-panel input-panel">
+                <div class="panel-header">
+                    <h3>Applicant Profile</h3>
+                    <span class="status-dot"></span>
+                </div>
+                
+                <form id="prediction-form" class="modern-form">
+                    <div class="form-grid">
                         
-                        <div class="form-group">
-                            <label for="age">Age: <span id="age-val">35</span></label>
-                            <input type="range" id="age" min="18" max="80" value="35" class="slider">
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="age">Age</label>
+                                <span class="val-display" id="age-val">35 yrs</span>
+                            </div>
+                            <input type="range" id="age" min="18" max="80" value="35" class="sleek-slider focus-primary">
                         </div>
 
-                        <div class="form-group">
-                            <label for="income">Annual Income ($)</label>
-                            <input type="number" id="income" min="15000" max="500000" value="50000" step="1000">
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="years-employed">Experience</label>
+                                <span class="val-display" id="years-val">5 yrs</span>
+                            </div>
+                            <input type="range" id="years-employed" min="0" max="45" value="5" class="sleek-slider focus-secondary">
                         </div>
 
-                        <div class="form-group">
-                            <label for="years-employed">Years Employed: <span id="years-val">5</span></label>
-                            <input type="range" id="years-employed" min="0" max="45" value="5" class="slider">
+                        <div class="input-group full-width">
+                            <label for="income">Annual Income</label>
+                            <div class="currency-input">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="income" value="50000" min="15000" max="500000" step="1000">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="loan-amount">Loan Amount ($)</label>
-                            <input type="number" id="loan-amount" min="10000" max="1000000" value="150000" step="5000">
+                        <div class="input-group full-width">
+                            <label for="loan-amount">Requested Loan Amount</label>
+                            <div class="currency-input input-glow-accent">
+                                <span class="currency-symbol">$</span>
+                                <input type="number" id="loan-amount" value="150000" min="10000" max="1000000" step="5000">
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="credit-score">Credit Score: <span id="credit-val">650</span></label>
-                            <input type="range" id="credit-score" min="300" max="850" value="650" class="slider">
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="credit-score">Credit Score</label>
+                                <span class="val-display badge badge-gold" id="credit-val">650</span>
+                            </div>
+                            <input type="range" id="credit-score" min="300" max="850" value="650" class="sleek-slider">
                         </div>
 
-                        <div class="form-group">
-                            <label for="loan-purpose">Loan Purpose</label>
-                            <div class="custom-select-wrapper">
+                        <div class="input-group">
+                            <div class="input-header">
+                                <label for="dti">Debt-to-Income</label>
+                                <span class="val-display badge" id="dti-val">30%</span>
+                            </div>
+                            <input type="range" id="dti" min="0" max="1" value="0.30" step="0.01" class="sleek-slider">
+                        </div>
+
+                        <div class="input-group full-width">
+                            <label for="loan-purpose">Purpose</label>
+                            <div class="select-wrapper">
                                 <select id="loan-purpose">
                                     <option value="Home Improvement">Home Improvement</option>
                                     <option value="Debt Consolidation">Debt Consolidation</option>
-                                    <option value="Business">Business</option>
+                                    <option value="Business" selected>New Business Expansion</option>
                                     <option value="Education">Education</option>
-                                    <option value="Medical">Medical</option>
-                                    <option value="Personal">Personal</option>
-                                    <option value="Auto">Auto</option>
+                                    <option value="Medical">Medical Expenses</option>
+                                    <option value="Personal">Personal Goal</option>
+                                    <option value="Auto">Auto Financing</option>
                                     <option value="Other">Other</option>
                                 </select>
+                                <div class="select-indicator">▾</div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="dti">Debt-to-Income Ratio: <span id="dti-val">0.30</span></label>
-                            <input type="range" id="dti" min="0" max="1" value="0.30" step="0.01" class="slider">
-                        </div>
-
-                        <button type="submit" id="predict-btn" class="primary-btn">
-                            <span class="btn-text">Predict Loan Approval</span>
-                            <div class="loader hidden" id="btn-loader"></div>
+                    <div class="action-footer">
+                        <button type="submit" id="predict-btn" class="neuro-btn">
+                            <span class="btn-text">Run Neural Analysis</span>
+                            <div class="btn-shimmer"></div>
+                            <svg class="loader-svg hidden" id="btn-loader" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="10" fill="none" stroke-width="3" stroke="rgba(255,255,255,0.3)"/>
+                                <path d="M12 2a10 10 0 0 1 10 10" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"/>
+                            </svg>
                         </button>
-                    </form>
-                </section>
+                    </div>
+                </form>
+            </section>
 
-                <!-- Results Section -->
-                <section class="results-section">
-                    <div id="initial-state" class="glass-panel text-center pulse-glow">
-                        <div class="placeholder-content">
-                            <span class="placeholder-icon">🔮</span>
-                            <h3>Awaiting Prediction</h3>
-                            <p>Fill out the applicant details and click predict to see the magic happen.</p>
-                        </div>
+            <!-- Right Side: AI Results Panel -->
+            <section class="results-container">
+                <!-- Initial Placeholder -->
+                <div id="initial-state" class="glass-panel text-center placeholder-state">
+                    <div class="orbit-spinner">
+                        <div class="orbit-ring ring-1"></div>
+                        <div class="orbit-ring ring-2"></div>
+                        <div class="orbit-core"></div>
+                    </div>
+                    <h2>Awaiting Parameters</h2>
+                    <p>Adjust the financial profile on the left to simulate our AI's decision-making process in real time.</p>
+                </div>
+
+                <!-- Dashboard (Hidden initially) -->
+                <div id="results-dashboard" class="dashboard-stack hidden">
+                    
+                    <div class="glass-panel major-decision" id="decision-card">
+                        <div class="card-bg-glow"></div>
+                        <p class="overline">AI Final Verdict</p>
+                        <h2 id="decision-text" class="glitch-text">APPROVED</h2>
                     </div>
 
-                    <div id="results-dashboard" class="dashboard hidden">
+                    <div class="analytics-grid">
+                        <div class="glass-panel analytic-card gradient-border">
+                            <h3>Approval Confidence</h3>
+                            <div class="gauge-container">
+                                <svg viewBox="0 0 120 120" class="gauge">
+                                    <circle class="gauge-track" cx="60" cy="60" r="50"></circle>
+                                    <circle class="gauge-fill" id="approval-gauge" cx="60" cy="60" r="50"></circle>
+                                </svg>
+                                <div class="gauge-value" id="approval-value">0<span class="percent">%</span></div>
+                            </div>
+                        </div>
                         
-                        <div class="decision-card glass-panel" id="decision-card">
-                            <h2 id="decision-text">APPROVED</h2>
-                            <p>Approval Decision</p>
-                        </div>
-
-                        <div class="metrics-grid">
-                            <div class="metric-card glass-panel">
-                                <h3>Approval Probability</h3>
-                                <div class="progress-ring" id="approval-ring">
-                                    <svg viewBox="0 0 100 100">
-                                        <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-                                        <circle class="ring-fill approved-fill" id="approval-circle" cx="50" cy="50" r="45"></circle>
-                                    </svg>
-                                    <span class="ring-text approved-text" id="approval-percentage">0%</span>
-                                </div>
-                            </div>
-                            
-                            <div class="metric-card glass-panel">
-                                <h3>Denial Probability</h3>
-                                <div class="progress-ring" id="denial-ring">
-                                    <svg viewBox="0 0 100 100">
-                                        <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
-                                        <circle class="ring-fill denied-fill" id="denial-circle" cx="50" cy="50" r="45"></circle>
-                                    </svg>
-                                    <span class="ring-text denied-text" id="denial-percentage">0%</span>
-                                </div>
+                        <div class="glass-panel analytic-card">
+                            <h3>Risk Probability</h3>
+                            <div class="gauge-container">
+                                <svg viewBox="0 0 120 120" class="gauge">
+                                    <circle class="gauge-track" cx="60" cy="60" r="50"></circle>
+                                    <circle class="gauge-fill gauge-danger" id="denial-gauge" cx="60" cy="60" r="50"></circle>
+                                </svg>
+                                <div class="gauge-value text-danger" id="denial-value">0<span class="percent">%</span></div>
                             </div>
                         </div>
-
-                        <div class="recommendations-card glass-panel" id="recommendations-box">
-                            <div class="recommendation-header">
-                                <span class="rec-icon" id="rec-icon">✅</span>
-                                <h3 id="rec-title">Excellent News!</h3>
-                            </div>
-                            <div id="rec-content" class="rec-content">
-                                <p>This application is likely to be approved based on the provided information.</p>
-                            </div>
-                        </div>
-
                     </div>
-                </section>
-            </div>
+
+                    <div class="glass-panel ai-insight-card">
+                        <div class="insight-header">
+                            <span class="icon-sparkle">✨</span>
+                            <h3>Neural Insights</h3>
+                        </div>
+                        <div class="insight-body" id="rec-content">
+                            <!-- Dynamic Content -->
+                        </div>
+                    </div>
+
+                </div>
+            </section>
         </main>
     </div>
 
-    <!-- Custom JS -->
     <script src="script.js"></script>
 </body>
 </html>
