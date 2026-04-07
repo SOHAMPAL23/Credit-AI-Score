@@ -138,6 +138,7 @@ Thumbs.db
 
 # Project specific
 *.pkl
+!api/credit_score_ai_model.pkl
 model_evaluation.png
 .vercel
 .env*.local
