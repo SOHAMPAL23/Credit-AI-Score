@@ -1,4 +1,6 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 import joblib
 import numpy as np
@@ -6,6 +8,22 @@ import os
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+# Mount frontend locally if public folder exists
+public_path = os.path.join(os.path.dirname(__file__), '..', 'public')
+if os.path.isdir(public_path):
+    app.mount("/public", StaticFiles(directory=public_path), name="static")
+
+    @app.get("/")
+    async def serve_frontend():
+        return FileResponse(os.path.join(public_path, "index.html"))
+
+    @app.get("/{file_path:path}")
+    async def serve_static(file_path: str):
+        full_path = os.path.join(public_path, file_path)
+        if os.path.isfile(full_path):
+            return FileResponse(full_path)
+        return FileResponse(os.path.join(public_path, "index.html"))
 
 # Enable CORS for local testing without issues
 app.add_middleware(
