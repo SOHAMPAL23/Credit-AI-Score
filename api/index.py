@@ -25,6 +25,7 @@ feature_names = None
 try:
     # Vercel gives paths relative to root or api folder depending on deployment.
     potential_paths = [
+        os.path.join(os.path.dirname(__file__), 'credit_score_ai_model.pkl'),
         os.path.join(os.path.dirname(__file__), '..', 'credit_score_ai_model.pkl'),
         os.path.join(os.getcwd(), 'credit_score_ai_model.pkl'),
         'credit_score_ai_model.pkl'
